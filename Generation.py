@@ -22,9 +22,9 @@ __license__ = "GNU GPL v3"
 from datetime import datetime, timedelta
 
 def main():
-    #startDate = input("Enter Start Date in DD/MM/YYYY format \n")
+    startDate = input("Enter Start Date in DD/MM/YYYY format \n")
     DateMsgDict = {}
-    startDate = "01/01/2021"
+    #startDate = "01/01/2021"
     startDate = datetime.strptime(startDate, '%d/%m/%Y')
     
     #print(startDate," ",msg)
