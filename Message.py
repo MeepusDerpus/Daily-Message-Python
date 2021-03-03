@@ -20,47 +20,65 @@ __copyright__ = "Copyright (C) 2021  Mansoor Rahman"
 __license__ = "GNU GPL v3"
 
 from datetime import date, timedelta, datetime
+import sys
 
 def main():
     today = date.today()
     day = timedelta(days=1)
-    d1 = today.strftime("%d/%m/%Y")
+    todayStr = today.strftime("%d/%m/%Y")
     yesterday = today - day
-    yesterday = yesterday.strftime("%d/%m/%Y")
-    d2 = today.strftime("%B %d, %Y")
+    yesterdayStr = yesterday.strftime("%d/%m/%Y")
        
     print("♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥")
     print("♥     GOOD MORNING FRIEND          ♥")
     print("♥   THIS IS YOUR DAILY MESSAGE     ♥")
     print("♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥")
     print("♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥")
-    TodayStr = "Today Is "+today.strftime("%d")+" of "+today.strftime("%B")+" "+today.strftime("%Y")
-    print("♥",TodayStr.center(34," "),"♥",sep="")
+    OutputStr = "Today Is "+today.strftime("%d")+" of "+today.strftime("%B")+" "+today.strftime("%Y")
+    print("♥",OutputStr.center(34," "),"♥",sep="")
 
     print("♥Your Lucky Message Of The Day Is: ♥")
-    MuffinFile = open("Messages.txt", "r")
-    for s in MuffinFile:
+    MessagesFile = open("Messages.txt", "r")
+    for s in MessagesFile:
         lines = s.split("_")
-        if(lines[0] == d1):
+        if(lines[0] == todayStr):
             print(lines[1].center(36, " "))        
-    MuffinFile.close()
+    MessagesFile.close()
     print("♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥")
     print("♥            GOODBYE               ♥")
     print("♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥")
-    x = input()
-    if (x.lower() == "help"):
-        print("Enter date in DD/MM/YYYY format. Type yesterday for previous day's message")
-        x = input()
-    if (x.lower() == "yesterday"):
-        MuffinFile = open("Messages.txt", "r")
-        for ss in MuffinFile:
-            Slines = ss.split("_")
-            if(Slines[0] == yesterday):
-                print(Slines[1].center(36, " "))        
-        MuffinFile.close()
-        y = input()
-    elif (x.lower() == "help"):
-        print("Enter date in DD/MM/YYYY format. Type yesterday for previous day's message")
+
+    InputStr = input()
+    while(InputStr != ""):
+        if (InputStr.lower() == "yesterday"):
+            MessagesFile = open("Messages.txt", "r")
+            for s in MessagesFile:
+                Slines = s.split("_")
+                if(Slines[0] == yesterdayStr):
+                    print(Slines[1].center(36, " "))
+            MessagesFile.close()    
+        else:
+               SearchDate = datetime.strptime(InputStr ,"%d/%m/%Y")
+               SearchDelta = today - datetime.date(SearchDate) + timedelta(days=1)
+               SearchDateStr = SearchDate.strftime("%d/%m/%Y")
+               if(SearchDelta.days > 0):                   
+                   MessagesFile = open("Messages.txt", "r")
+                   for s in MessagesFile:
+                       Slines = s.split("_")
+                       if(Slines[0] == SearchDateStr):
+                           print(Slines[1].center(36, " "))
+                   MessagesFile.close()
+               else:
+                   print("Please Pick a Date Before Today")
+            
+
+        InputStr = input()
+        if (InputStr == ""):
+            sys.exit(0)
+    sys.exit(0)      
+        
+    
+        
         
 if __name__ == "__main__":
     main()
